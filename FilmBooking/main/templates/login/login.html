@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}登录{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+ 
+ 
+{% block content %}
+    <div class="container">
+        <div class=" m-auto">
+          <form class='form-login' action="/login/" method="post">
+              
+              {% csrf_token %}
+              <h2 class="text-center">欢迎登录</h2>
+              <br />
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-user"></i>
+                    </div>
+                </div>
+                {{ login_form.username}}
+                {% comment %} <input type="text" name='username' class="form-control" id="id_username" placeholder="Username" autofocus required> {% endcomment %}
+              </div>
+              <br />
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-lock m-auto"></i>
+                    </div>
+                </div>
+                {{ login_form.password}}
+                {% comment %} <input type="password" name='password' class="form-control" id="id_password" placeholder="Password" required> {% endcomment %}
+              </div>
+              <br />
+              <a href="/register/" class="btn btn-pill btn-outline-success float-left"><i class="fad fa-user-plus"></i> 注册</a>
+              <button type="submit" class="btn btn-pill btn-success float-right"><i class="fad fa-sign-in"></i> 登录</button>
+              <br />
+              <br />
+              <br />
+              {% comment %} 错误信息 {% endcomment %}
+              {% if message %}
+                <div class="alert alert-warning">{{ message }}</div>
+              {% endif %}
+          </form>
+        </div>
+    </div> <!-- /container -->
+{% endblock %}

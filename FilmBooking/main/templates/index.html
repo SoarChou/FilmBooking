@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block nav-login %}
+<ul class="navbar-nav navbar-right">
+    {{nav_login|safe}}
+</ul>
+{% endblock nav-login %}
+
+{% block css %}
+<style type="text/css">
+    .movies{
+        margin-top:20px;
+    }
+    
+    .card{
+        width:276px;
+        height:386px;
+        {% comment %} margin-top:30px; {% endcomment %}
+        transition:ease-in-out 0.3s;
+        padding:0;
+        box-shadow:
+            0 0.36875rem 0.4875rem rgb(90 97 105 / 10%), 
+            0 0.2375rem 0.20625rem rgb(90 97 105 / 10%), 
+            0 0.2rem 0.13125rem rgb(90 97 105 / 12%), 
+            0 0.1rem 0.075rem rgb(90 97 105 / 10%);
+        border:none;
+    }
+
+    .card:hover{
+        box-shadow:
+            0 0.86875rem 1.1875rem rgb(90 97 105 / 10%), 
+            0 1.0375rem 0.80625rem rgb(90 97 105 / 10%), 
+            0 0.50rem 1.03125rem rgb(90 97 105 / 12%), 
+            0 0.25rem 0.2875rem rgb(90 97 105 / 10%);
+    }
+
+    .card-img-overlay{
+        {% comment %} position:absolute; {% endcomment %}
+        background: rgb(0,0,0,0);
+        background-image: linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.5));
+        margin:0;
+        width:100%;
+        border:0;
+        {% comment %} border-radius:0.625rem; {% endcomment %}
+        top:230px;
+        heigt:100px;
+
+    }
+
+    .card-img{
+        max-width:100%;
+        max-height:100%;
+    }
+
+    .card-title{
+        margin-top:40px;
+    }
+
+    .col-md{
+        padding:35px;
+    }
+
+    .input-group{
+        position:fixed;
+        z-index:99;
+        top:80px;
+    }
+    h4{
+        font-size:22px;
+    }
+
+</style>
+{% endblock css %}
+
+{% block title %}主页{% endblock %}
+{% block content %}
+    <br />
+    <div class="container">
+        <div class="input-group input-group-seamless">
+        {% comment %} <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fad fa-restroom fa-lg"></i>
+            </div>
+        </div> {% endcomment %}
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <a href="/index/" class="btn btn-success active">电影</a>
+              <a href="/login/" class="btn btn-success">影院</a>
+            </div>
+        </div>
+        <div class="movies">
+        {% comment %} {{ loop_times1 }} {% endcomment %}
+        <div class="row">
+        {% for movie in movie_list %}
+            {% if forloop.counter0|divisibleby:6 %}
+            {% comment %} </div> {% endcomment %}
+                {% comment %} {{ i }}{{ j }} {% endcomment %}
+            <div class="row">
+                <div class="col-md">
+                    <a href="/movie/{{ movie.movie_id }}">
+                        <div class="card m-auto">
+                            <img class="card-img" src="{{ movie.cover }}" alt="Card image cap">
+                            <div class="card-img-overlay">
+                                <h4 class="card-title float-right">{{ movie.name }}</h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-md">
+                    <a href="/movie/{{ movie.movie_id }}">
+                        <div class="card m-auto">
+                            <img class="card-img" src="{{ movie.cover }}" alt="Card image cap">
+                            <div class="card-img-overlay">
+                                <h4 class="card-title float-right">{{ movie.name }}</h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    {% if data %}
+    <ul id="pages" class="pagination pagination-sm pagination-xs">
+        {% if data.first %}
+        <li><a href="?page=1">1</a></li>
+        {% endif %}
+        {% if data.left %}
+        {% if data.left_has_more %}
+        <li><span>...</span></li>
+        {% endif %}
+        {% for i in data.left %}
+        <li><a href="?page={{i}}">{{i}}</a></li>
+        {% endfor %}
+        {% endif %}
+        <li class="active"><a href="?page={{data.page}}">{{data.page}}</a></li>
+        {% if data.right %}
+        {% for i in data.right %}
+        <li><a href="?page={{i}}">{{i}}</a></li>
+        {% endfor %}
+        {% if data.right_has_more %}
+        <li><span>...</span></li>
+        {% endif %}
+        {% endif %}
+        {% if data.last %}
+        <li><a href="?page={{data.total_pages}}">{{data.total_pages}}</a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}注册成功{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="m-auto" style="text-align:center;padding-top:100px">
+        <h1><i class="fad fa-check-circle fa-2x" style="color:#00cc00"></i></h1>
+        <h2>注册成功!</h2>
+        <a href="/login/">去登录&gt</a>
+    </div>
+{% endblock content %}

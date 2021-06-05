@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}注册{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+ 
+{% block nav-login %}
+  <ul class="navbar-nav navbar-right">
+    <li class="nav-item left">
+      <a class="nav-link" href="/login/">登录</a>
+    </li>
+  </ul>
+{% endblock nav-login %}
+    
+ 
+{% block content %}
+    <div class="container">
+        <div class=" m-auto">
+          <form class='form-login' action="/register/" method="post">
+              
+              {% csrf_token %}
+              <h2 class="text-center">欢迎注册</h2>
+              <br />
+              {{ error_info }}
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-user"></i>
+                    </div>
+                </div>
+                {{ register_form.username}}
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <lable style = "color:red;font-size:4px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if msg_name %}
+                          {{ msg_name }}
+                        {% endif %}
+                        </label>
+                    </div>
+                </div>
+                {% comment %} <input type="text" name='username' class="form-control" id="id_username" placeholder="Username" autofocus required> {% endcomment %}
+              </div>
+              <br />
+              <lable>{{ register_form.username.error }}</lable>
+              <div class="input-group input-group-seamless">
+                {% comment %} <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-restroom fa-lg"></i>
+                    </div>
+                </div> {% endcomment %}
+                <div class="btn-group btn-group-toggle m-auto" data-toggle="buttons">
+                  <label class="btn btn-light active" style="color:#4444ff">
+                    <input type="radio" name="gender" value="male" id="option1" autocomplete="off" checked=""><i class="fad fa-male"></i> 男
+                  </label>
+                  <label class="btn btn-light" style="color:#ff4444">
+                    <input type="radio" name="gender" value="female" id="option2" autocomplete="off"> <i class="fad fa-female"></i> 女
+                  </label>
+                </div>
+              </div>
+              <br />
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-envelope m-auto"></i>
+                    </div>
+                </div>
+                {{ register_form.email}}
+                {% comment %} <input type="password" name='password' class="form-control" id="id_password" placeholder="Password" required> {% endcomment %}
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <lable style = "color:red;font-size:4px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if msg_email %}
+                          {{ msg_email }}
+                        {% endif %}
+                        </label>
+                    </div>
+                </div>
+              </div>
+              <br />
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-lock m-auto"></i>
+                    </div>
+                </div>
+                {{ register_form.password}}
+                {% comment %} <input type="password" name='password' class="form-control" id="id_password" placeholder="Password" required> {% endcomment %}
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <lable style = "color:red;font-size:4px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if msg_password %}
+                          {{ msg_password }}
+                        {% endif %}
+                        </label>
+                    </div>
+                </div>
+              </div>
+              <br />
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fad fa-lock m-auto"></i>
+                    </div>
+                </div>
+                {{ register_form.password_repeat}}
+                {% comment %} <input type="password" name='password' class="form-control" id="id_password" placeholder="Password" required> {% endcomment %}
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <lable style = "color:red;font-size:4px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% if msg_password2 %}
+                          {{ msg_password2 }}
+                        {% endif %}
+                        </label>
+                    </div>
+                </div>
+              </div>
+              
+              
+              <br />
+              <a href="/login/" class="btn btn-pill btn-outline-success float-left"><i class="fad fa-sign-in"></i> 登录</a>
+              <button type="submit" class="btn btn-pill btn-success float-right"><i class="fad fa-check-circle"></i> 确认</button>
+              
+              <br />
+              <br />
+              <br />
+              {% comment %} 错误信息 {% endcomment %}
+              {% if message %}
+                <div class="alert alert-warning">{{ message }}</div>
+              {% endif %}
+          </form>
+        </div>
+    </div> <!-- /container -->
+{% endblock %}
