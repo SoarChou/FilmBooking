@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}无结果{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="m-auto" style="text-align:center;padding-top:100px">
+        <h1><i class="fad fa-flushed fa-2x" style="color:#eeaa44"></i></h1>
+        <h2>什么都没有!</h2>
+        <a href="/index/">&lt回主页</a>
+    </div>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ movie.name }}{% endblock title %}
+{% block nav-login %}
+<ul class="navbar-nav navbar-right">
+    {{nav_login|safe}}
+</ul>
+{% endblock nav-login %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <style type="text/css">
+        .container{
+            background:black;
+        }
+        .movie-bg{
+            background: #a8ff78;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            width:100%;
+            margin:0;
+            padding:0;
+            position:absolute;
+            top:0;
+            height:300px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+<br />
+<div class="movie-bg">
+    <div class="container">
+    </div>
+</div>
+
+{% endblock content %}

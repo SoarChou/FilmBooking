@@ -51,11 +51,11 @@ class Admin(models.Model):
 
 class Movie(models.Model):
     movie_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=128,unique=True)
+    name = models.CharField(max_length=256,unique=True)
     # 封面链接
     cover = models.URLField(max_length=200)
     c_time = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
         return self.name
     class Meta:
@@ -82,8 +82,6 @@ class MovieTag(models.Model):
     tag_id = models.AutoField(primary_key=True)
     movie_id = models.ForeignKey("Movie", on_delete=models.CASCADE)
     tag = models.CharField(max_length=32,choices=tags)
-    def __str__(self):
-            return self.name
     class Meta:
         # 排序依据
         ordering = ['movie_id']
@@ -119,7 +117,7 @@ class Room(models.Model):
     # 列
     row = models.IntegerField()
     def __str__(self):
-        return self.name
+        return self.num
     class Meta:
         # 排序依据
         ordering = ['room_id']
@@ -137,8 +135,6 @@ class Schedule(models.Model):
     start_time = models.TimeField(null=False)
     # 价格
     price = models.DecimalField(max_digits=4, decimal_places=2)
-    def __str__(self):
-        return self.name
     class Meta:
         # 排序依据
         ordering = ['schedule_id']
@@ -160,8 +156,6 @@ class Ticket(models.Model):
     seat_row = models.IntegerField()
     state = models.CharField(max_length=32, choices=states)
 
-    def __str__(self):
-        return self.name
     class Meta:
         # 排序依据
         ordering = ['ticket_id']

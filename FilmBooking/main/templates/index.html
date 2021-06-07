@@ -5,6 +5,12 @@
     {{nav_login|safe}}
 </ul>
 {% endblock nav-login %}
+{% block search %}
+<form class="form-inline my-2 my-lg-0" role="search" method="get" action="/search/">
+    <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
+    <button class="btn btn-m btn-outline-success my-2 my-sm-0" type="submit"><i class="fad fa-search fa-lg"></i></button>
+</form>
+{% endblock search %}
 
 {% block css %}
 <style type="text/css">
@@ -69,6 +75,10 @@
         font-size:22px;
     }
 
+    .page_nav{
+        display:flex;
+        margin-left:45%;
+    }
 </style>
 {% endblock css %}
 
@@ -90,8 +100,9 @@
         <div class="movies">
         {% comment %} {{ loop_times1 }} {% endcomment %}
         <div class="row">
-        {% for movie in movie_list %}
+        {% for movie in data.movie_list %}
             {% if forloop.counter0|divisibleby:6 %}
+            </div>
             {% comment %} </div> {% endcomment %}
                 {% comment %} {{ i }}{{ j }} {% endcomment %}
             <div class="row">
@@ -120,31 +131,35 @@
         {% endfor %}
         </div>
     </div>
+
     {% if data %}
-    <ul id="pages" class="pagination pagination-sm pagination-xs">
-        {% if data.first %}
-        <li><a href="?page=1">1</a></li>
-        {% endif %}
-        {% if data.left %}
-        {% if data.left_has_more %}
-        <li><span>...</span></li>
-        {% endif %}
-        {% for i in data.left %}
-        <li><a href="?page={{i}}">{{i}}</a></li>
-        {% endfor %}
-        {% endif %}
-        <li class="active"><a href="?page={{data.page}}">{{data.page}}</a></li>
-        {% if data.right %}
-        {% for i in data.right %}
-        <li><a href="?page={{i}}">{{i}}</a></li>
-        {% endfor %}
-        {% if data.right_has_more %}
-        <li><span>...</span></li>
-        {% endif %}
-        {% endif %}
-        {% if data.last %}
-        <li><a href="?page={{data.total_pages}}">{{data.total_pages}}</a></li>
-        {% endif %}
-    </ul>
+    <nav class="page_nav" aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if data.first %}
+            <li class="page-item"><a href="?page=1" class="">1</a></li>
+            {% endif %}
+            {% if data.left %}
+            {% if data.left_has_more %}
+            <li class="page-item"><span>...</span></li>
+            {% endif %}
+            {% for i in data.left %}
+            <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+            {% endfor %}
+            {% endif %}
+            <li class="page-item active"><a href="?page={{data.page}}" class="page-link">{{data.page}}</a></li>
+            {% if data.right %}
+            {% for i in data.right %}
+            <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+            {% endfor %}
+            {% if data.right_has_more %}
+            <li class="page-item"><span>...</span></li>
+            {% endif %}
+            {% endif %}
+            {% if data.last %}
+            <li class="page-item"><a href="?page={{data.total_pages}} class="page-link">{{data.total_pages}}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
     {% endif %}
+</div>
 {% endblock %}

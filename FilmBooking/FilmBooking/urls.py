@@ -29,4 +29,6 @@ urlpatterns = [
     path("logout/", main.logout),
     path("changeuser/", main.change_user),
     path("success/", main.success),
+    path("search/", main.search),
+    path("nothing/", main.nothing),
 ]

@@ -4,8 +4,7 @@ from .forms import LoginForm, UserForm
 from django.core.paginator import Paginator
 # Create your views here.
 
-
-def index(request):
+def nav_islogin(request):
     nav_login = '''
           <li class="nav-item left">
             <a class="nav-link" href="/login/">登录</a>
@@ -45,13 +44,30 @@ def index(request):
         '''
     else:
         pass
-    
+    return nav_login
+
+def index(request):
+    nav_login = nav_islogin(request)
     movies = models.Movie.objects.all()
+    # print(movies)
+    data = showMovies(request,movies)
+    # print(data)
+    return render(request,'index.html', locals())
+
+def showMovies(request,movies):
     # 分页，每页18个电影
+    if movies.count() == 0:
+        return None
+    else:
+        pass
     movie_pages = Paginator(movies,18)
     if movie_pages.num_pages <= 1:
         movie_list = movies
-        data = ""
+        data = {
+            'movie_list':movie_list,
+            'page':1
+        }
+        # print(data)
     else:
         page = int(request.GET.get('page',1))
         movie_list = movie_pages.page(page)
@@ -67,7 +83,7 @@ def index(request):
         page_range = movie_pages.page_range 
         if page == 1:  #如果请求第1页
             right = page_range[page:page+2]  #获取右边连续号码页
-            print(total_pages)
+            # print(total_pages)
             if right[-1] < total_pages - 1:    # 如果最右边的页码号比最后一页的页码号减去 1 还要小，
             # 说明最右边的页码号和最后一页的页码号之间还有其它页码，因此需要显示省略号，通过 right_has_more 来指示。
                 right_has_more = True
@@ -92,6 +108,7 @@ def index(request):
             if right[-1] < total_pages:
                 last = True
         data = {
+            'movie_list':movie_list,
             'left':left,
             'right':right,
             'left_has_more':left_has_more,
@@ -101,7 +118,7 @@ def index(request):
             'total_pages':total_pages,
             'page':page
         }
-    return render(request,'index.html', locals())
+    return data
  
 def login(request):
     # 检测session登录信息，避免重复登陆
@@ -208,6 +225,24 @@ def success(request):
     pass
     return render(request, 'login/success.html')
 
-def movie(request,movie_id):
+def nothing(request):
     pass
-    return render(request, 'login/success.html')
+    return render(request, 'nothing.html')
+
+def movie(request,movie_id):
+    nav_login=nav_islogin(request)
+    movie = models.Movie.objects.get(movie_id=movie_id)
+    movie_tags = models.MovieTag.objects.filter(movie_id=movie_id)
+    return render(request, 'movie/movie.html', locals())
+
+def search(request):
+    nav_login = nav_islogin(request)
+    search_name = request.GET.get('search')
+    movies = models.Movie.objects.all()
+    # print(search_name)
+    movies = models.Movie.objects.filter(name__icontains=search_name)
+    data = showMovies(request, movies)
+    if data == None:
+        return redirect("/nothing/")
+    # print(data)
+    return render(request,'index.html', locals())
